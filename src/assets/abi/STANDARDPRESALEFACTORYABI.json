@@ -1,0 +1,117 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "factoryManager_", "type": "address" },
+      { "internalType": "address", "name": "implementation_", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "owner", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "presale", "type": "address" }
+    ],
+    "name": "PresaleCreated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "title_", "type": "string" },
+      { "internalType": "uint256", "name": "tokenPrice_", "type": "uint256" },
+      { "internalType": "uint256", "name": "totalAmount_", "type": "uint256" },
+      { "internalType": "uint256", "name": "startTime_", "type": "uint256" },
+      { "internalType": "uint256", "name": "period_", "type": "uint256" },
+      { "internalType": "uint256", "name": "minInvestAmount_", "type": "uint256" },
+      { "internalType": "uint256", "name": "maxInvestAmount_", "type": "uint256" },
+      { "internalType": "uint256", "name": "initialClaimPercent_", "type": "uint256" },
+      { "internalType": "uint256", "name": "vestingCycle_", "type": "uint256" },
+      { "internalType": "uint256", "name": "cyclePercent_", "type": "uint256" },
+      { "internalType": "bool", "name": "isNative_", "type": "bool" }
+    ],
+    "name": "create",
+    "outputs": [{ "internalType": "address", "name": "presale", "type": "address" }],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "factoryManager",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "feeTo",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "flatFee",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "implementation",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "feeReceivingAddress", "type": "address" }],
+    "name": "setFeeTo",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "fee", "type": "uint256" }],
+    "name": "setFlatFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "implementation_", "type": "address" }],
+    "name": "setImplementation",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
