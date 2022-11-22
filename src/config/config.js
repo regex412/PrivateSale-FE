@@ -1,0 +1,9 @@
+module.exports = {
+  // eslint-disable-next-line no-loss-of-precision
+  uintMaxValue: 1157920892373161954235709850086879078532699846656405640394,
+  StandardPresale: "0xA601b50b3e26458Af75af311c663Ea2A1B98F395",
+  PresaleFactoryManager: "0x501d15A205109a3d8EF4224B46E30B53a815d012",
+  StandardPresaleFactory: "0xAF7B36652BD677cBF4228460cb1c2bb6b28BfAD4",
+  RewardToken: "0xcBCc92297c708C2D17fD1320A8EF6AD32Ed3BD95",
+  BusdAddress: "0x77aBF6126495dbBFE53a732c4a4DB663a1cA1000",
+};

@@ -1,0 +1,204 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [{ "internalType": "address[]", "name": "factories", "type": "address[]" }],
+    "name": "addPresaleFactories",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "factory", "type": "address" }],
+    "name": "addPresaleFactory",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "owner_", "type": "address" },
+      { "internalType": "address", "name": "presale_", "type": "address" },
+      { "internalType": "string", "name": "title_", "type": "string" },
+      { "internalType": "uint256", "name": "tokenPrice_", "type": "uint256" },
+      { "internalType": "uint256", "name": "totalMaxAmount_", "type": "uint256" },
+      { "internalType": "uint256", "name": "minInvestAmount_", "type": "uint256" },
+      { "internalType": "uint256", "name": "maxInvestAmount_", "type": "uint256" },
+      { "internalType": "uint256", "name": "startTime_", "type": "uint256" },
+      { "internalType": "uint256", "name": "period_", "type": "uint256" },
+      { "internalType": "uint256", "name": "initialClaimPercent_", "type": "uint256" },
+      { "internalType": "uint256", "name": "vestingCycle_", "type": "uint256" },
+      { "internalType": "uint256", "name": "cyclePercent_", "type": "uint256" },
+      { "internalType": "bool", "name": "isNative_", "type": "bool" }
+    ],
+    "name": "assignPresaleToOwner",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_title", "type": "string" },
+      { "internalType": "string", "name": "_description", "type": "string" },
+      { "internalType": "string", "name": "_logoUrl", "type": "string" },
+      { "internalType": "string", "name": "_contactInfo", "type": "string" }
+    ],
+    "name": "createOrgnization",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_title", "type": "string" },
+      { "internalType": "string", "name": "_description", "type": "string" },
+      { "internalType": "string", "name": "_logoUrl", "type": "string" },
+      { "internalType": "string", "name": "_contactInfo", "type": "string" }
+    ],
+    "name": "editOrganization",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllPresales",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "presaleOwner", "type": "address" },
+          { "internalType": "address", "name": "presaleAddress", "type": "address" },
+          { "internalType": "string", "name": "title", "type": "string" },
+          { "internalType": "uint256", "name": "tokenPrice", "type": "uint256" },
+          { "internalType": "uint256", "name": "totalMaxAmount", "type": "uint256" },
+          { "internalType": "uint256", "name": "minInvestAmount", "type": "uint256" },
+          { "internalType": "uint256", "name": "maxInvestAmount", "type": "uint256" },
+          { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+          { "internalType": "uint256", "name": "period", "type": "uint256" },
+          { "internalType": "uint256", "name": "initialClaimPercent_", "type": "uint256" },
+          { "internalType": "uint256", "name": "vestingCycle_", "type": "uint256" },
+          { "internalType": "uint256", "name": "cyclePercent_", "type": "uint256" },
+          { "internalType": "bool", "name": "isNative", "type": "bool" }
+        ],
+        "internalType": "struct PresaleFactoryManager.Presale[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "owner", "type": "address" }],
+    "name": "getAllPresalesPerUser",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "presaleOwner", "type": "address" },
+          { "internalType": "address", "name": "presaleAddress", "type": "address" },
+          { "internalType": "string", "name": "title", "type": "string" },
+          { "internalType": "uint256", "name": "tokenPrice", "type": "uint256" },
+          { "internalType": "uint256", "name": "totalMaxAmount", "type": "uint256" },
+          { "internalType": "uint256", "name": "minInvestAmount", "type": "uint256" },
+          { "internalType": "uint256", "name": "maxInvestAmount", "type": "uint256" },
+          { "internalType": "uint256", "name": "startTime", "type": "uint256" },
+          { "internalType": "uint256", "name": "period", "type": "uint256" },
+          { "internalType": "uint256", "name": "initialClaimPercent_", "type": "uint256" },
+          { "internalType": "uint256", "name": "vestingCycle_", "type": "uint256" },
+          { "internalType": "uint256", "name": "cyclePercent_", "type": "uint256" },
+          { "internalType": "bool", "name": "isNative", "type": "bool" }
+        ],
+        "internalType": "struct PresaleFactoryManager.Presale[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllowedFactories",
+    "outputs": [{ "internalType": "address[]", "name": "", "type": "address[]" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getOrganization",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "title", "type": "string" },
+          { "internalType": "string", "name": "description", "type": "string" },
+          { "internalType": "string", "name": "logoUrl", "type": "string" },
+          { "internalType": "string", "name": "contactInfo", "type": "string" }
+        ],
+        "internalType": "struct PresaleFactoryManager.Organization",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "owner", "type": "address" },
+      { "internalType": "uint256", "name": "index", "type": "uint256" }
+    ],
+    "name": "getPresale",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "presale", "type": "address" }],
+    "name": "isPresaleGenerated",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "orgOf",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "factory", "type": "address" }],
+    "name": "removePresaleFactory",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
