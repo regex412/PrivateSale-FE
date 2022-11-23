@@ -5,7 +5,9 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-no-useless-fragment */
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useWeb3React } from "@web3-react/core";
 import MDBox from "components/MDBox";
 import Grid from "@mui/material/Grid";
 
@@ -23,10 +25,13 @@ import { DatePicker, Checkbox, Modal, Spin, message, Radio } from "antd";
 
 import config from "config/config";
 import STANDARDPRESALEFACTORYABI from "../../assets/abi/STANDARDPRESALEFACTORYABI.json";
+import PRESALEFACTORYMANAGERABI from "../../assets/abi/PRESALEFACTORYMANAGERABI.json";
 
 const ethers = require("ethers");
 
 function CreatePrivateSale() {
+  const { account } = useWeb3React();
+  const Navigate = useNavigate();
   const Provider = new ethers.providers.Web3Provider(window.ethereum);
   const Signer = Provider.getSigner();
 
@@ -41,6 +46,7 @@ function CreatePrivateSale() {
   const [contributionState, setContributionState] = useState(true);
   const [dateState, setDateState] = useState(true);
   const [createState, setCreateState] = useState(true);
+  const [vestingScheduleState, setVestingScheduleState] = useState(true);
   const [dateValidation, setDateValidation] = useState(false);
   const [startDateValidation, setStartDateValidation] = useState(false);
   const [contributionValidation, setContributionValidation] = useState(false);
@@ -53,9 +59,9 @@ function CreatePrivateSale() {
   const [maxContributionAmount, setMaxContributionAmount] = useState(0);
   const [startDateStamp, setStartDateStamp] = useState("");
   const [startDate, setStartDate] = useState(0);
-  const [initialClaimPercent] = useState(10);
-  const [vestingCycle] = useState(120);
-  const [cyclePercent] = useState(10);
+  const [initialClaimPercent, setInitialClaimPercent] = useState(0);
+  const [vestingCycle, setVestingCycle] = useState(0);
+  const [cyclePercent, setCyclePercent] = useState(0);
   const [endDateStamp, setEndDateStamp] = useState("");
   const [endDate, setEndDate] = useState(0);
   const [isNative, setIsNative] = useState(true);
@@ -79,6 +85,10 @@ function CreatePrivateSale() {
     const max_Contribution = document.getElementById("maxContribution").value;
     const contributionCheckBox = document.getElementById("contributioncheckbox");
     const endTimeCheckBox = document.getElementById("endtimecheckbox");
+    const vestingSchedule_State = document.getElementById("vestingScheduleCheckbox").checked;
+    const initial_claimpercent = document.getElementById("initialClaimPercent").value;
+    const vesting_cycle = document.getElementById("vestingCycle").value;
+    const cycle_Percent = document.getElementById("cyclePercent").value;
 
     if (contributionCheckBox.checked && endTimeCheckBox.checked) {
       if (startDate < endDate && min_Contribution < max_Contribution) {
@@ -89,6 +99,15 @@ function CreatePrivateSale() {
         setTotalAmount(total_Amount);
         setMinContributionAmount(min_Contribution);
         setMaxContributionAmount(max_Contribution);
+        if (vestingSchedule_State) {
+          setInitialClaimPercent(initial_claimpercent);
+          setVestingCycle(vesting_cycle);
+          setCyclePercent(cycle_Percent);
+        } else {
+          setInitialClaimPercent(0);
+          setVestingCycle(0);
+          setCyclePercent(0);
+        }
         setIsModalOpen(true);
       } else if (startDate > endDate) {
         setDateValidation(true);
@@ -105,6 +124,15 @@ function CreatePrivateSale() {
         setMinContributionAmount(min_Contribution);
         setMaxContributionAmount(max_Contribution);
         setEndDate(0);
+        if (vestingSchedule_State) {
+          setInitialClaimPercent(initial_claimpercent);
+          setVestingCycle(vesting_cycle);
+          setCyclePercent(cycle_Percent);
+        } else {
+          setInitialClaimPercent(0);
+          setVestingCycle(0);
+          setCyclePercent(0);
+        }
         setEndDateStamp("No Limit");
         setIsModalOpen(true);
       } else {
@@ -119,6 +147,15 @@ function CreatePrivateSale() {
         setTotalAmount(total_Amount);
         setMinContributionAmount(0);
         setMaxContributionAmount(0);
+        if (vestingSchedule_State) {
+          setInitialClaimPercent(initial_claimpercent);
+          setVestingCycle(vesting_cycle);
+          setCyclePercent(cycle_Percent);
+        } else {
+          setInitialClaimPercent(0);
+          setVestingCycle(0);
+          setCyclePercent(0);
+        }
         setIsModalOpen(true);
       } else {
         setDateValidation(true);
@@ -133,6 +170,15 @@ function CreatePrivateSale() {
       setMaxContributionAmount(0);
       setIsModalOpen(true);
       setEndDate(0);
+      if (vestingSchedule_State) {
+        setInitialClaimPercent(initial_claimpercent);
+        setVestingCycle(vesting_cycle);
+        setCyclePercent(cycle_Percent);
+      } else {
+        setInitialClaimPercent(0);
+        setVestingCycle(0);
+        setCyclePercent(0);
+      }
       setEndDateStamp("No Limit");
     }
   };
@@ -184,10 +230,31 @@ function CreatePrivateSale() {
     const token_Price = document.getElementById("tokenPrice").value;
     const token_Title = document.getElementById("tokenTitle").value;
     const total_Amount = document.getElementById("totalAmount").value;
+    const initial_claimpercent = document.getElementById("initialClaimPercent").value;
+    const vesting_cycle = document.getElementById("vestingCycle").value;
+    const cycle_Percent = document.getElementById("cyclePercent").value;
+    const vestingSchedule_State = document.getElementById("vestingScheduleCheckbox").checked;
 
-    token_Price > 0 && total_Amount > 0 && startDate > 0 && token_Title !== ""
-      ? setCreateState(false)
-      : setCreateState(true);
+    if (vestingSchedule_State) {
+      initial_claimpercent > 0 &&
+      vesting_cycle > 0 &&
+      cycle_Percent > 0 &&
+      token_Price > 0 &&
+      total_Amount > 0 &&
+      startDate > 0 &&
+      token_Title !== ""
+        ? setCreateState(false)
+        : setCreateState(true);
+    } else {
+      token_Price > 0 && total_Amount > 0 && startDate > 0 && token_Title !== ""
+        ? setCreateState(false)
+        : setCreateState(true);
+    }
+  };
+
+  const settingVestingSchedule = (e) => {
+    createSaleState();
+    setVestingScheduleState(!e.target.checked);
   };
 
   const confirmFunc = async () => {
@@ -202,9 +269,9 @@ function CreatePrivateSale() {
       maxContributionAmount === 0
         ? "115792089237316195423570985008687907853269984665640564039457584007913129639935"
         : ethers.utils.parseEther(maxContributionAmount.toString()),
-      initialClaimPercent,
-      vestingCycle,
-      cyclePercent,
+      initialClaimPercent === 0 ? 0 : ethers.BigNumber.from(initialClaimPercent),
+      vestingCycle === 0 ? 0 : ethers.BigNumber.from(vestingCycle),
+      cyclePercent === 0 ? 0 : ethers.BigNumber.from(cyclePercent),
       isNative,
       {
         value: ethers.utils.parseEther("0.01"),
@@ -223,6 +290,23 @@ function CreatePrivateSale() {
         message.success("Create Canceled");
       });
   };
+
+  const presaleFactoryContract = new ethers.Contract(
+    config.PresaleFactoryManager,
+    PRESALEFACTORYMANAGERABI,
+    Signer
+  );
+
+  useEffect(async () => {
+    if (account) {
+      const orgState = await presaleFactoryContract.orgOf(account);
+      // eslint-disable-next-line no-unused-expressions
+      if (Number(orgState) === 0) {
+        Navigate("/");
+        window.location.reload();
+      }
+    }
+  }, [account]);
 
   return (
     <DashboardLayout>
@@ -368,38 +452,48 @@ function CreatePrivateSale() {
               m={3}
               style={{ width: "90%", justifyContent: "center" }}
             >
-              <MDTypography variant="h6" textAlign="center" color="dark" mt={5}>
-                Vesting Schedule
-              </MDTypography>
+              <Checkbox
+                id="vestingScheduleCheckbox"
+                style={{ marginTop: "12%" }}
+                onChange={settingVestingSchedule}
+              >
+                <MDTypography variant="h7" textAlign="center" style={{ width: "100%" }}>
+                  Vesting Schedule
+                </MDTypography>
+              </Checkbox>
+
               <TextField
                 style={{ width: "100%", marginTop: "5%" }}
-                id="maxContribution"
+                id="initialClaimPercent"
                 label="InitialClaimPercent"
                 type="number"
                 InputLabelProps={{
                   shrink: true,
                 }}
-                disabled={contributionState}
+                onChange={createSaleState}
+                disabled={vestingScheduleState}
               />
               <TextField
                 style={{ width: "100%", marginTop: "5%" }}
-                id="maxContribution"
+                id="vestingCycle"
                 label="VestingCycle"
                 type="number"
                 InputLabelProps={{
                   shrink: true,
                 }}
-                disabled={contributionState}
+                onChange={createSaleState}
+                disabled={vestingScheduleState}
               />
               <TextField
                 style={{ width: "100%", marginTop: "5%" }}
-                id="maxContribution"
+                id="cyclePercent"
                 label="Cyclepercent"
                 type="number"
+                onChange={createSaleState}
                 InputLabelProps={{
                   shrink: true,
                 }}
-                disabled={contributionState}
+                disabled={vestingScheduleState}
               />
               <MDTypography variant="h4" textAlign="center" style={{ width: "100%" }} mt={2}>
                 Cost : 0.01BNB
@@ -558,7 +652,7 @@ function CreatePrivateSale() {
         >
           Initial Claim Percent :
           <MDTypography variant="h7" color="dark" textAlign="left" px={3} fontWeight="regular">
-            {endDateStamp} %
+            {initialClaimPercent} %
           </MDTypography>
         </MDTypography>
 
@@ -571,7 +665,7 @@ function CreatePrivateSale() {
         >
           Vesting Cycle :
           <MDTypography variant="h7" color="dark" textAlign="left" px={3} fontWeight="regular">
-            {endDateStamp} second(s)
+            {vestingCycle} second(s)
           </MDTypography>
         </MDTypography>
 
@@ -584,7 +678,7 @@ function CreatePrivateSale() {
         >
           Cycle Percent :
           <MDTypography variant="h7" color="dark" textAlign="left" px={3} fontWeight="regular">
-            {endDateStamp} %
+            {cyclePercent} %
           </MDTypography>
         </MDTypography>
       </Modal>

@@ -122,13 +122,15 @@ function LaunchDashboard() {
   };
 
   useEffect(async () => {
-    const orgState = await presaleFactoryContract.orgOf(account);
-    // eslint-disable-next-line no-unused-expressions
-    if (Number(orgState) === 0) {
-      Navigate("/");
-      window.location.reload();
-    } else {
-      account && (await getPresaleData());
+    if (account) {
+      const orgState = await presaleFactoryContract.orgOf(account);
+      // eslint-disable-next-line no-unused-expressions
+      if (Number(orgState) === 0) {
+        Navigate("/");
+        window.location.reload();
+      } else {
+        account && (await getPresaleData());
+      }
     }
   }, [account]);
 
@@ -340,7 +342,7 @@ function LaunchDashboard() {
               color="white"
               textAlign="left"
               style={{ width: "100%" }}
-              fontweight="bold"
+              fontWeight="bold"
             >
               <Link to={`/privatesale/${modalpresaleArray.contractAddress}/${chainId}`}>
                 https://privatesale-work.web.app/privatesale/{chainId}

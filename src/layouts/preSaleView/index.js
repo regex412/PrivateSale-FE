@@ -5,7 +5,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import MDBox from "components/MDBox";
 import Grid from "@mui/material/Grid";
 
@@ -33,6 +33,8 @@ import { useWeb3React } from "@web3-react/core";
 import config from "config/config";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import STANDARDPRESALEABI from "../../assets/abi/STANDARDPRESALEABI.json";
+import PRESALEFACTORYMANAGERABI from "../../assets/abi/PRESALEFACTORYMANAGERABI.json";
+
 import BUSDABI from "../../assets/abi/BUSDABI.json";
 
 import InvestListTable from "./investListTable";
@@ -46,6 +48,7 @@ const ethers = require("ethers");
 function PreSaleView() {
   const { account } = useWeb3React();
   const { contractAddress } = useParams();
+  const Navigate = useNavigate();
   const [state, setState] = useState({
     days: 0,
     hours: 0,
@@ -246,13 +249,24 @@ function PreSaleView() {
 
   const ClaimToken = async () => {
     setLoading(true);
-    await standardFactoryContract.claimToken().then((tx) => {
-      tx.wait().then(() => {
-        message.success("Claimed successful.");
-        window.location.reload();
+    await standardFactoryContract
+      .claimToken()
+      .then((tx) => {
+        tx.wait()
+          .then(() => {
+            message.success("Claimed successful.");
+            window.location.reload();
+            setLoading(false);
+          })
+          .catch(() => {
+            message.error("Claimed Error(please wait for the vesting cycle).");
+            setLoading(false);
+          });
+      })
+      .catch(() => {
+        message.error("Claimed Error(please wait for the vesting cycle).");
         setLoading(false);
       });
-    });
   };
 
   // const showModal = () => {
@@ -288,8 +302,23 @@ function PreSaleView() {
     setIsInvestListModalOpen(false);
   };
 
+  const presaleFactoryContract = new ethers.Contract(
+    config.PresaleFactoryManager,
+    PRESALEFACTORYMANAGERABI,
+    Signer
+  );
+
   useEffect(async () => {
-    account && getData();
+    if (account) {
+      const orgState = await presaleFactoryContract.orgOf(account);
+      // eslint-disable-next-line no-unused-expressions
+      if (Number(orgState) === 0) {
+        Navigate("/");
+        window.location.reload();
+      } else {
+        account && getData();
+      }
+    }
   }, [account]);
 
   useEffect(() => {
@@ -527,10 +556,10 @@ function PreSaleView() {
                     ) : (
                       <>
                         {" "}
-                        {!presaleArray.claimedAmount ===
-                          presaleArray.totalAmount - presaleArray.remainAmount &&
-                        presaleArray.investAmount !== 0 &&
-                        presaleArray.investAmount !== 0 ? (
+                        {parseFloat(presaleArray.claimedAmount).toFixed(2) !==
+                          parseFloat(presaleArray.totalAmount - presaleArray.remainAmount).toFixed(
+                            2
+                          ) && presaleArray.investAmount !== 0 ? (
                           <>
                             <MDButton
                               color="info"
@@ -809,31 +838,56 @@ function PreSaleView() {
                     </>
                   ) : (
                     <>
-                      {!presaleArray.claimedAmount ===
-                        presaleArray.totalAmount - presaleArray.remainAmount &&
+                      {parseFloat(presaleArray.claimedAmount).toFixed(2) !==
+                        parseFloat(presaleArray.totalAmount - presaleArray.remainAmount).toFixed(
+                          2
+                        ) &&
                         presaleArray.investAmount !== 0 && (
                           <MDBox justifyContent="center" width="100%">
                             <MDBox
                               coloredShadow="light"
                               color="light"
-                              m={2}
+                              m={1}
                               style={{
                                 borderRadius: "8px",
                                 width: "100%",
-                                display: "flex",
-                                justifyContent: "space-between",
-                                padding: "7px",
                               }}
                             >
-                              <MDTypography variant="h6" color="dark">
-                                InitialClaimPercent : {presaleArray.initialClaimPercent} %
-                              </MDTypography>
-                              <MDTypography variant="h6" color="dark">
-                                Vesting Cycle : {presaleArray.vestingCycle} s
-                              </MDTypography>
-                              <MDTypography variant="h6" color="dark">
-                                Cycle Percent : {presaleArray.cyclePercent}%
-                              </MDTypography>
+                              <Grid container spacing={1} py={1} px={1}>
+                                <Grid
+                                  item
+                                  xs={12}
+                                  xl={4}
+                                  md={4}
+                                  style={{ justifyContent: "center" }}
+                                >
+                                  <MDTypography variant="h6" color="dark" textAlign="center">
+                                    InitialClaimPercent : {presaleArray.initialClaimPercent} %
+                                  </MDTypography>
+                                </Grid>
+                                <Grid
+                                  item
+                                  xs={12}
+                                  xl={4}
+                                  md={4}
+                                  style={{ justifyContent: "center" }}
+                                >
+                                  <MDTypography variant="h6" color="dark" textAlign="center">
+                                    Vesting Cycle : {presaleArray.vestingCycle} s
+                                  </MDTypography>
+                                </Grid>
+                                <Grid
+                                  item
+                                  xs={12}
+                                  xl={4}
+                                  md={4}
+                                  style={{ justifyContent: "center" }}
+                                >
+                                  <MDTypography variant="h6" color="dark" textAlign="center">
+                                    Cycle Percent : {presaleArray.cyclePercent}%
+                                  </MDTypography>
+                                </Grid>
+                              </Grid>
                             </MDBox>
                             <MDButton
                               color="info"

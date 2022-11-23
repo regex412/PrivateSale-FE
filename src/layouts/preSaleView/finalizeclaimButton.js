@@ -127,7 +127,12 @@ function FinalizeclaimButton({
           color="info"
           style={{ width: "100%" }}
           onClick={flinalizeFunc}
-          disabled={!((startTime < endTime && currentTime > endTime * 1000) || period === 0)}
+          disabled={
+            !(
+              (startTime < endTime && currentTime > endTime * 1000) ||
+              (period === 0 && currentTime > startTime * 1000)
+            )
+          }
         >
           {finalizeButtonLoading ? <Spin style={{ width: "40px" }} /> : "Finalize"}
         </MDButton>
